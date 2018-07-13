@@ -1,6 +1,6 @@
-# chat
+# Particles Tweet 
 
-> Un chat
+> A live feed tweet about a specific hashtag
 
 ## Build Setup
 
