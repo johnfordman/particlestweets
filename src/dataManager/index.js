@@ -2,7 +2,7 @@ import io from 'socket.io-client'
 import Vue from 'vue'
 export const store = new Vue({
   data: {
-    user: {}
+    tweets: []
   }
 })
 
@@ -13,6 +13,10 @@ export default {
     Vue.prototype.$store = store
     socket.on('connect', () => {
       console.log('connect')
+    })
+    socket.on('newTweet', (tweet) => {
+      // console.log(tweet)
+      store.tweets.push({tweet})
     })
     Vue.mixin({
       methods: {

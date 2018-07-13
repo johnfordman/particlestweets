@@ -1,42 +1,30 @@
 <template>
   <div class="page-scene">
-    <form @submit.prevent="onSubmit">
-      <div>
-        <p class="error" v-if="error">The username is invalid</p>
-        <input type="text" placeholder="username" v-model="username">
-        <button>Login</button>
-      </div>
-    </form>
+    <p>{{lastTweet}}</p>
   </div>
 </template>
-
 
 <script>
   export default {
     data () {
       return {
-        error: false,
-        username: ''
+        lastTweet: ''
+      }
+    },
+    methods: {
+      getLastTweet () {
+        this.$store.$watch('tweets', (tweets) => {
+          let lastData = tweets[tweets.length - 1]
+          let lastTweet = lastData.tweet.text
+          if (lastTweet !== this.lastTweet) {
+            this.lastTweet = lastTweet
+            console.log(this.lastTweet)
+          }
+        })
       }
     },
     created () {
-      this.$store.$watch('user', (user) => {
-        if (user.id) {
-          this.$router.push('/')
-        }
-      })
-    },
-    methods: {
-      onSubmit (e) {
-        // Validation
-        if (!this.username.match(/^\w{1,15}$/)) {
-          this.error = true
-        } else {
-          this.error = false
-          this.$emit('login', this.username)
-          this.$router.push('/')
-        }
-      }
+      this.getLastTweet()
     }
   }
 </script>
