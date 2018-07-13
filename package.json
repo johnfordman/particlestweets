@@ -16,6 +16,7 @@
     "body-parser": "^1.18.3",
     "fs": "0.0.1-security",
     "moment": "^2.18.1",
+    "pixi.js": "^4.8.1",
     "socket.io": "^2.0.3",
     "socket.io-client": "^2.0.3",
     "twitter": "^1.7.1",
