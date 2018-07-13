@@ -34,8 +34,8 @@
         const app = new PIXI.Application(width, height, {
           resolution: resolution,
           autoResize: true,
-          transparent: true
-          // antialias: true,
+          transparent: true,
+          antialias: true
           // forceFXAA: true
         })
         container.appendChild(app.view)
@@ -53,10 +53,8 @@
         tweetText.position.set(width / 2, height / 2)
         // add text to screen
         app.stage.addChild(tweetText)
-      
         // Watch lastTweet property
         this.$watch('lastTweet', (tweet) => {
-          tweetText.text = tweet
           var radius = utils.map(Math.random(), 0, 1, 5, 30)
           const minPos = radius
           const maxPosX = width - radius
@@ -66,11 +64,13 @@
           let alpha = utils.map(Math.random(), 0, 1, 0.2, 1)
           let randomColor = colors[Math.floor(Math.random() * colors.length)]
           // add new particle to screen
-          createParticle(randomX, randomY, radius, alpha, randomColor)
+          createParticle(randomX, randomY, radius, alpha, randomColor, tweet)
          // console.log(tweet.length)
         })
+        // Resize canvas && property
+        window.addEventListener('resize', onWindowResize, false)
         /* Methods */
-        function createParticle (x, y, radius, alpha, color) {
+        function createParticle (x, y, radius, alpha, color, lastTweet) {
           let particle = new PIXI.Graphics()
           particle.beginFill(`0x${color}`)
           particle.alpha = alpha
@@ -79,11 +79,19 @@
           particle.interactive = true
           particle.buttonMode = true
           particle.hitArea = new PIXI.Circle(x, y, radius)
+          particle.data = lastTweet
           particle.click = function (e) {
-            console.log(this, e)
+            // console.log(this.data)
+            tweetText.text = this.data
           }
           // Add the graphics to the stage
           app.stage.addChild(particle)
+        }
+        function onWindowResize () {
+          width = window.innerWidth
+          height = window.innerHeight
+          tweetText.position.set(width / 2, height / 2)
+          app.renderer.resize(width, height)
         }
       }
     },
