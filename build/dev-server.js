@@ -2,9 +2,9 @@ var path = require('path')
 var express = require('express')
 var webpack = require('webpack')
 var config = require('../config')
-var opn = require('opn')
 var proxyMiddleware = require('http-proxy-middleware')
 var webpackConfig = require('./webpack.dev.conf')
+var bodyParser = require('body-parser')
 
 // default port where dev server listens for incoming traffic
 var port = process.env.PORT || config.dev.port
@@ -13,6 +13,8 @@ var port = process.env.PORT || config.dev.port
 var proxyTable = config.dev.proxyTable
 
 var app = express()
+var server = require('http').createServer(app)
+var io = require('socket.io')(server)
 var compiler = webpack(webpackConfig)
 
 var devMiddleware = require('webpack-dev-middleware')(compiler, {
@@ -31,6 +33,10 @@ compiler.plugin('compilation', function (compilation) {
     cb()
   })
 })
+
+// JSON encode
+app.use(bodyParser.urlencoded({ extended: true }))
+app.use(require('body-parser').json())
 
 // proxy api requests
 Object.keys(proxyTable).forEach(function (context) {
@@ -55,12 +61,11 @@ app.use(hotMiddleware)
 var staticPath = path.posix.join(config.dev.assetsPublicPath, config.dev.assetsSubDirectory)
 app.use(staticPath, express.static('./static'))
 
-module.exports = app.listen(port, function (err) {
-  if (err) {
-    console.log(err)
-    return
-  }
+server.listen(port, function() {
   var uri = 'http://localhost:' + port
   console.log('Listening at ' + uri + '\n')
-  opn(uri)
+})
+
+io.sockets.on('connection', function (socket) {
+  console.log('hello new user')
 })

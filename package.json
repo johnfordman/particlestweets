@@ -1,8 +1,8 @@
 {
-  "name": "chat",
+  "name": "particulestweets",
   "version": "1.0.0",
-  "description": "Un chat",
-  "author": "Pinot Arnaud <arnaud.pinot@edu.gobelins.fr>",
+  "description": "live feed of tweets",
+  "author": "Jean ndoulou",
   "private": true,
   "scripts": {
     "dev": "node build/dev-server.js",
@@ -13,6 +13,7 @@
     "store": "src/store.js"
   },
   "dependencies": {
+    "body-parser": "^1.18.3",
     "fs": "0.0.1-security",
     "moment": "^2.18.1",
     "socket.io": "^2.0.3",

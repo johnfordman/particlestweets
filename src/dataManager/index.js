@@ -7,10 +7,9 @@ export const store = new Vue({
 })
 
 export default {
-  install (Vue, options) {
-    console.log(options)
+  install (Vue) {
     // Connect to socket.io
-    const socket = io(options.api)
+    const socket = io.connect()
     Vue.prototype.$store = store
     socket.on('connect', () => {
       console.log('connect')

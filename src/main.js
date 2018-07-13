@@ -9,9 +9,7 @@ Vue.use(Bourgeon, {
   locales: ['fr', 'en']
 })
 
-Vue.use(dataManager, {
-  api: 'http://bddi-chat2017.herokuapp.com'
-})
+Vue.use(dataManager)
 
 export const bus = new Vue()
 
