@@ -5,6 +5,7 @@ var config = require('../config')
 var proxyMiddleware = require('http-proxy-middleware')
 var webpackConfig = require('./webpack.dev.conf')
 var bodyParser = require('body-parser')
+var Twitter = require('twitter')
 
 // default port where dev server listens for incoming traffic
 var port = process.env.PORT || config.dev.port
@@ -66,6 +67,28 @@ server.listen(port, function() {
   console.log('Listening at ' + uri + '\n')
 })
 
+let userConnected = false
 io.sockets.on('connection', function (socket) {
-  console.log('hello new user')
+  userConnected = true
+  if(userConnected) {
+    console.log('Hello new user')
+    var client = new Twitter({
+      consumer_key: config.dev.consumer_key,
+      consumer_secret: config.dev.consumer_secret,
+      access_token_key: config.dev.access_token_key,
+      access_token_secret: config.dev.access_token_secret
+    })
+    client.stream('statuses/filter', {track: config.dev.hashtag}, function(stream) {
+      stream.on('data', function(event) {
+        console.log(event && event.text)
+        io.emit('newTweet', (event))
+      })
+     
+      stream.on('error', function(error) {
+        throw error;
+      })
+    })
+  }
+  
+
 })
