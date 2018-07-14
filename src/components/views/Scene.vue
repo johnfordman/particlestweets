@@ -80,14 +80,15 @@
           var texture = particle.generateCanvasTexture()
           // Create Sprite and apply texture
           var particleSprite = new PIXI.Sprite(texture)
-          particleSprite.alpha = alpha
+          particleSprite.alpha = 0
           particleSprite.x = x
           particleSprite.y = y
           particleSprite.interactive = true
           particleSprite.buttonMode = true
           particleSprite.anchor.set(0.5)
+          particleSprite.scale.set(0, 0)
           particleSprite.data = lastTweet
-
+          entryParticle(particleSprite, alpha)
           particleSprite.mouseover = function (e) {
             tweetText.text = this.data
             TweenMax.to(this.scale, 0.5, {x: 1.2, y: 1.2})
@@ -102,11 +103,14 @@
           // Add the graphics to the stage
           app.stage.addChild(particleSprite)
         }
+        function entryParticle (particle, alpha) {
+          TweenMax.to(particle.scale, 0.5, {x: 1, y: 1})
+          TweenMax.to(particle, 0.5, {alpha: alpha})
+        }
         function destroyParticle (particle) {
           TweenMax.to(particle.scale, 0.5, {x: 3, y: 3})
           TweenMax.to(particle, 0.5, {alpha: 0,
             onComplete: function () {
-              console.log('onComplete')
               particle.destroy()
             }
           })
