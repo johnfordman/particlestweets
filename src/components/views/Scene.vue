@@ -32,6 +32,7 @@
         let height = window.innerHeight
         const resolution = 1
         const colors = ['ff0099', 'f3f315', '83f52c', 'ff6600', '6e0dd0']
+        // let particlesArr = []
         // const resolution = window.devicePixelRatio
 
         const app = new PIXI.Application(width, height, {
@@ -66,11 +67,16 @@
           const maxPoY = height - radius
           let randomX = utils.map(Math.random(), 0, 1, minPos, maxPosX)
           let randomY = utils.map(Math.random(), 0, 1, minPos, maxPoY)
+          let speedX = utils.map(Math.random(), 0, 1, 0.5, 5)
+          let speedY = utils.map(Math.random(), 0, 1, -2.5, 3)
           let alpha = utils.map(Math.random(), 0, 1, 0.2, 1)
           let randomColor = colors[Math.floor(Math.random() * colors.length)]
           // add new particle to screen
-          particle.init(randomX, randomY, radius, alpha, randomColor, tweet)
-         // console.log(tweet.length)
+          particle.init(randomX, randomY, radius, alpha, randomColor, tweet, speedX, speedY)
+        })
+
+        app.ticker.add(() => {
+          particle.update()
         })
         // Resize canvas && property
         window.addEventListener('resize', onWindowResize, false)

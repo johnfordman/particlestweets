@@ -1,16 +1,20 @@
 import * as PIXI from 'pixi.js'
 import {TweenMax} from 'gsap'
+import * as glm from 'gl-matrix'
+// import { add, vec2 } from 'gl-matrix/src/gl-matrix/vec2'
 
 export default class Particle {
   constructor (tweetText, app) {
     this.tweetText = tweetText
     this.app = app
     this.particleArr = []
-    this.init()
+    console.log(glm)
   }
 
-  init (x, y, radius, alpha, color, lastTweet, location, velocity) {
+  init (x, y, radius, alpha, color, lastTweet, speedX, speedY) {
     let particle = new PIXI.Graphics()
+    let location = glm.vec2.create()
+    let velocity = glm.vec2.create()
     particle.beginFill(`0x${color}`)
     particle.drawCircle(0, 0, radius)
     particle.endFill()
@@ -26,6 +30,10 @@ export default class Particle {
     particleSprite.anchor.set(0.5)
     particleSprite.scale.set(0, 0)
     particleSprite.data = lastTweet
+    location = glm.vec2.fromValues(x, y)
+    velocity = glm.vec2.fromValues(speedX, speedY)
+    particleSprite.location = location
+    particleSprite.velocity = velocity
     this.entryParticle(particleSprite, alpha)
 
     particleSprite.mouseover = (e) => {
@@ -42,6 +50,16 @@ export default class Particle {
     }
     // Add the graphics to the stage
     this.app.stage.addChild(particleSprite)
+    this.particleArr.push(particleSprite)
+  }
+
+  update () {
+    for (let i = 0; i < this.particleArr.length; i++) {
+      let location = this.particleArr[i].location
+      let velocity = this.particleArr[i].velocity
+      location = glm.vec2.add(location, location, velocity)
+      console.log(location)
+    }
   }
 
   entryParticle (particle, alpha) {
