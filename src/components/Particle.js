@@ -57,8 +57,16 @@ export default class Particle {
     for (let i = 0; i < this.particleArr.length; i++) {
       let location = this.particleArr[i].location
       let velocity = this.particleArr[i].velocity
-      location = glm.vec2.add(location, location, velocity)
-      console.log(location)
+      glm.vec2.add(location, location, velocity)
+      if (location[0] > window.innerWidth || location[0] < 0) {
+        velocity[0] = velocity[0] * -1
+      }
+
+      if (location[1] > window.innerHeight || location[1] < 0) {
+        velocity[1] = velocity[1] * -1
+      }
+      this.particleArr[i].x = location[0]
+      this.particleArr[i].y = location[1]
     }
   }
 
