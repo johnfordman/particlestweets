@@ -104,7 +104,12 @@
         }
         function destroyParticle (particle) {
           TweenMax.to(particle.scale, 0.5, {x: 3, y: 3})
-          TweenMax.to(particle, 0.5, {alpha: 0})
+          TweenMax.to(particle, 0.5, {alpha: 0,
+            onComplete: function () {
+              console.log('onComplete')
+              particle.destroy()
+            }
+          })
         }
         function onWindowResize () {
           width = window.innerWidth
