@@ -5,6 +5,7 @@
 
 <script>
   import * as PIXI from 'pixi.js'
+  import {TweenMax} from 'gsap'
   import utils from '../../utils/'
 
   export default {
@@ -40,7 +41,7 @@
         })
         container.appendChild(app.view)
         // Tweet text
-        let tweetText = new PIXI.Text('The tweets are coming!', {
+        let tweetText = new PIXI.Text('Hover a particle to see its contents', {
           fontFamily: 'Helvetica',
           fontSize: 14,
           lineHeight: 16,
@@ -73,19 +74,37 @@
         function createParticle (x, y, radius, alpha, color, lastTweet) {
           let particle = new PIXI.Graphics()
           particle.beginFill(`0x${color}`)
-          particle.alpha = alpha
-          particle.drawCircle(x, y, radius)
+          particle.drawCircle(0, 0, radius)
           particle.endFill()
-          particle.interactive = true
-          particle.buttonMode = true
-          particle.hitArea = new PIXI.Circle(x, y, radius)
-          particle.data = lastTweet
-          particle.click = function (e) {
-            // console.log(this.data)
+
+          var texture = particle.generateCanvasTexture()
+          // Create Sprite and apply texture
+          var particleSprite = new PIXI.Sprite(texture)
+          particleSprite.alpha = alpha
+          particleSprite.x = x
+          particleSprite.y = y
+          particleSprite.interactive = true
+          particleSprite.buttonMode = true
+          particleSprite.anchor.set(0.5)
+          particleSprite.data = lastTweet
+
+          particleSprite.mouseover = function (e) {
             tweetText.text = this.data
+            TweenMax.to(this.scale, 0.5, {x: 1.2, y: 1.2})
+          }
+          particleSprite.mouseout = function (e) {
+            tweetText.text = this.data
+            TweenMax.to(this.scale, 0.5, {x: 1, y: 1})
+          }
+          particleSprite.click = function (e) {
+            destroyParticle(this)
           }
           // Add the graphics to the stage
-          app.stage.addChild(particle)
+          app.stage.addChild(particleSprite)
+        }
+        function destroyParticle (particle) {
+          TweenMax.to(particle.scale, 0.5, {x: 3, y: 3})
+          TweenMax.to(particle, 0.5, {alpha: 0})
         }
         function onWindowResize () {
           width = window.innerWidth
