@@ -5,8 +5,10 @@
 
 <script>
   import * as PIXI from 'pixi.js'
-  import {TweenMax} from 'gsap'
+  // import {TweenMax} from 'gsap'
+  // import glm from 'gl-matrix'
   import utils from '../../utils/'
+  import Particle from '../Particle'
 
   export default {
     data () {
@@ -54,6 +56,8 @@
         tweetText.position.set(width / 2, height / 2)
         // add text to screen
         app.stage.addChild(tweetText)
+
+        let particle = new Particle(tweetText, app)
         // Watch lastTweet property
         this.$watch('lastTweet', (tweet) => {
           var radius = utils.map(Math.random(), 0, 1, 5, 30)
@@ -65,56 +69,12 @@
           let alpha = utils.map(Math.random(), 0, 1, 0.2, 1)
           let randomColor = colors[Math.floor(Math.random() * colors.length)]
           // add new particle to screen
-          createParticle(randomX, randomY, radius, alpha, randomColor, tweet)
+          particle.init(randomX, randomY, radius, alpha, randomColor, tweet)
          // console.log(tweet.length)
         })
         // Resize canvas && property
         window.addEventListener('resize', onWindowResize, false)
         /* Methods */
-        function createParticle (x, y, radius, alpha, color, lastTweet) {
-          let particle = new PIXI.Graphics()
-          particle.beginFill(`0x${color}`)
-          particle.drawCircle(0, 0, radius)
-          particle.endFill()
-
-          var texture = particle.generateCanvasTexture()
-          // Create Sprite and apply texture
-          var particleSprite = new PIXI.Sprite(texture)
-          particleSprite.alpha = 0
-          particleSprite.x = x
-          particleSprite.y = y
-          particleSprite.interactive = true
-          particleSprite.buttonMode = true
-          particleSprite.anchor.set(0.5)
-          particleSprite.scale.set(0, 0)
-          particleSprite.data = lastTweet
-          entryParticle(particleSprite, alpha)
-          particleSprite.mouseover = function (e) {
-            tweetText.text = this.data
-            TweenMax.to(this.scale, 0.5, {x: 1.2, y: 1.2})
-          }
-          particleSprite.mouseout = function (e) {
-            tweetText.text = this.data
-            TweenMax.to(this.scale, 0.5, {x: 1, y: 1})
-          }
-          particleSprite.click = function (e) {
-            destroyParticle(this)
-          }
-          // Add the graphics to the stage
-          app.stage.addChild(particleSprite)
-        }
-        function entryParticle (particle, alpha) {
-          TweenMax.to(particle.scale, 0.5, {x: 1, y: 1})
-          TweenMax.to(particle, 0.5, {alpha: alpha})
-        }
-        function destroyParticle (particle) {
-          TweenMax.to(particle.scale, 0.5, {x: 3, y: 3})
-          TweenMax.to(particle, 0.5, {alpha: 0,
-            onComplete: function () {
-              particle.destroy()
-            }
-          })
-        }
         function onWindowResize () {
           width = window.innerWidth
           height = window.innerHeight
