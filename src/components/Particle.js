@@ -42,11 +42,6 @@ export default class Particle {
       TweenMax.to(particleSprite.scale, 0.5, {x: 1.2, y: 1.2})
       TweenMax.to(this.tweetText, 0.3, {alpha: 1})
     }
-    /* particleSprite.mouseout = (e) => {
-      TweenMax.to(this.tweetText, 0.3, {alpha: 0})
-      TweenMax.to(particleSprite.scale, 0.5, {x: 1, y: 1})
-    }
-    */
     particleSprite.click = (e) => {
       this.score++
       this.destroyParticle(particleSprite, this.score)
@@ -76,6 +71,7 @@ export default class Particle {
   entryParticle (particle, alpha) {
     TweenMax.to(particle.scale, 0.5, {x: 1, y: 1})
     TweenMax.to(particle, 0.5, {alpha: alpha})
+    this.getEntrySound()
   }
   destroyParticle (particle, score) {
     this.scoreText.text = `Score : ${score}`
@@ -88,5 +84,14 @@ export default class Particle {
         particle.destroy()
       }
     })
+  }
+  getEntrySound () {
+    let soundURL = '../../static/audio/bruitage_msg.mp3'
+    var sound = document.createElement('audio')
+    sound.id = 'audio-player'
+    sound.src = soundURL
+    sound.type = 'audio/mpeg'
+    sound.load()
+    sound.play()
   }
 }
