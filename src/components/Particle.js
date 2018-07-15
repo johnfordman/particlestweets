@@ -4,10 +4,12 @@ import * as glm from 'gl-matrix'
 // import { add, vec2 } from 'gl-matrix/src/gl-matrix/vec2'
 
 export default class Particle {
-  constructor (tweetText, app) {
+  constructor (tweetText, app, scoreText) {
     this.tweetText = tweetText
+    this.scoreText = scoreText
     this.app = app
     this.particleArr = []
+    this.score = 0
   }
 
   init (x, y, radius, alpha, color, lastTweet, speedX, speedY) {
@@ -46,7 +48,8 @@ export default class Particle {
     }
     */
     particleSprite.click = (e) => {
-      this.destroyParticle(particleSprite)
+      this.score++
+      this.destroyParticle(particleSprite, this.score)
     }
     // Add the graphics to the stage
     this.app.stage.addChild(particleSprite)
@@ -74,7 +77,8 @@ export default class Particle {
     TweenMax.to(particle.scale, 0.5, {x: 1, y: 1})
     TweenMax.to(particle, 0.5, {alpha: alpha})
   }
-  destroyParticle (particle) {
+  destroyParticle (particle, score) {
+    this.scoreText.text = `Score : ${score}`
     TweenMax.to(this.tweetText, 0.3, {alpha: 0})
     TweenMax.to(particle.scale, 0.5, {x: 3, y: 3})
     TweenMax.to(particle, 0.5, {alpha: 0,

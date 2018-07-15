@@ -41,6 +41,18 @@
           // forceFXAA: true
         })
         container.appendChild(app.view)
+        // Score text
+        let scoreText = new PIXI.Text('Score : 0', {
+          fontFamily: 'Helvetica',
+          fontSize: 22,
+          lineHeight: 16,
+          fill: 'black',
+          align: 'left'
+        })
+        // Positioning score text
+        scoreText.x = 10
+        scoreText.y = 10
+
         // Tweet text
         let tweetText = new PIXI.Text('Hover a particle to see its contents', {
           fontFamily: 'Helvetica',
@@ -54,9 +66,9 @@
         tweetText.anchor.set(0.5, 0.5)
         tweetText.position.set(width / 2, height / 2)
         // add text to screen
-        app.stage.addChild(tweetText)
+        app.stage.addChild(tweetText, scoreText)
 
-        let particle = new Particle(tweetText, app)
+        let particle = new Particle(tweetText, app, scoreText)
         // Watch lastTweet property
         this.$watch('lastTweet', (tweet) => {
           var radius = utils.map(Math.random(), 0, 1, 5, 30)
@@ -65,8 +77,8 @@
           const maxPoY = height - radius
           let randomX = utils.map(Math.random(), 0, 1, minPos, maxPosX)
           let randomY = utils.map(Math.random(), 0, 1, minPos, maxPoY)
-          let speedX = utils.map(Math.random(), 0, 1, 0.5, 5)
-          let speedY = utils.map(Math.random(), 0, 1, -2.5, 3)
+          let speedX = utils.map(Math.random(), 0, 1, 0.1, 3.5)
+          let speedY = utils.map(Math.random(), 0, 1, 0.1, 3.5)
           let alpha = utils.map(Math.random(), 0, 1, 0.2, 1)
           let randomColor = colors[Math.floor(Math.random() * colors.length)]
           // add new particle to screen
