@@ -5,8 +5,6 @@
 
 <script>
   import * as PIXI from 'pixi.js'
-  // import {TweenMax} from 'gsap'
-  // import glm from 'gl-matrix'
   import utils from '../../utils/'
   import Particle from '../Particle'
 

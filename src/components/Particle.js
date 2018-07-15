@@ -8,7 +8,6 @@ export default class Particle {
     this.tweetText = tweetText
     this.app = app
     this.particleArr = []
-    console.log(glm)
   }
 
   init (x, y, radius, alpha, color, lastTweet, speedX, speedY) {
@@ -41,10 +40,11 @@ export default class Particle {
       TweenMax.to(particleSprite.scale, 0.5, {x: 1.2, y: 1.2})
       TweenMax.to(this.tweetText, 0.3, {alpha: 1})
     }
-    particleSprite.mouseout = (e) => {
+    /* particleSprite.mouseout = (e) => {
       TweenMax.to(this.tweetText, 0.3, {alpha: 0})
       TweenMax.to(particleSprite.scale, 0.5, {x: 1, y: 1})
     }
+    */
     particleSprite.click = (e) => {
       this.destroyParticle(particleSprite)
     }
@@ -78,7 +78,9 @@ export default class Particle {
     TweenMax.to(this.tweetText, 0.3, {alpha: 0})
     TweenMax.to(particle.scale, 0.5, {x: 3, y: 3})
     TweenMax.to(particle, 0.5, {alpha: 0,
-      onComplete: function () {
+      onComplete: () => {
+        let index = this.particleArr.indexOf(particle)
+        this.particleArr.splice(index, 1)
         particle.destroy()
       }
     })
