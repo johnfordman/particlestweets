@@ -23,6 +23,9 @@ export default class Particle {
     var texture = particle.generateCanvasTexture()
     // Create Sprite and apply texture
     var particleSprite = new PIXI.Sprite(texture)
+    let config = {
+      radius: radius
+    }
     particleSprite.alpha = 0
     particleSprite.x = x
     particleSprite.y = y
@@ -35,6 +38,7 @@ export default class Particle {
     velocity = glm.vec2.fromValues(speedX, speedY)
     particleSprite.location = location
     particleSprite.velocity = velocity
+    particleSprite.config = config
     this.entryParticle(particleSprite, alpha)
 
     particleSprite.mouseover = (e) => {
@@ -43,7 +47,6 @@ export default class Particle {
       TweenMax.to(this.tweetText, 0.3, {alpha: 1})
     }
     particleSprite.click = (e) => {
-      this.score++
       this.destroyParticle(particleSprite, this.score)
     }
     // Add the graphics to the stage
@@ -67,20 +70,29 @@ export default class Particle {
       this.particleArr[i].y = location[1]
     }
   }
+  updateScore (particle) {
+    if (particle.config.radius <= 7) {
+      this.score = this.score + 10
+    } else {
+      this.score++
+    }
+
+    this.scoreText.text = `Score : ${this.score}`
+  }
 
   entryParticle (particle, alpha) {
     TweenMax.to(particle.scale, 0.5, {x: 1, y: 1})
     TweenMax.to(particle, 0.5, {alpha: alpha})
     this.getEntrySound()
   }
-  destroyParticle (particle, score) {
-    this.scoreText.text = `Score : ${score}`
+  destroyParticle (particle) {
     TweenMax.to(this.tweetText, 0.3, {alpha: 0})
     TweenMax.to(particle.scale, 0.5, {x: 3, y: 3})
     TweenMax.to(particle, 0.5, {alpha: 0,
       onComplete: () => {
         let index = this.particleArr.indexOf(particle)
         this.particleArr.splice(index, 1)
+        this.updateScore(particle)
         particle.destroy()
       }
     })
