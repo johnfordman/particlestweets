@@ -86,7 +86,7 @@ export default class Particle {
     })
   }
   getEntrySound () {
-    let soundURL = '../../static/audio/bruitage_msg.mp3'
+    let soundURL = '../../static/audio/blop.mp3'
     var sound = document.createElement('audio')
     sound.id = 'audio-player'
     sound.src = soundURL
