@@ -56,14 +56,15 @@ export default class Particle {
 
   update () {
     for (let i = 0; i < this.particleArr.length; i++) {
+      let particleRadius = this.particleArr[i].config.radius
       let location = this.particleArr[i].location
       let velocity = this.particleArr[i].velocity
       glm.vec2.add(location, location, velocity)
-      if (location[0] > window.innerWidth || location[0] < 0) {
+      if (location[0] > window.innerWidth - particleRadius || location[0] < particleRadius) {
         velocity[0] = velocity[0] * -1
       }
 
-      if (location[1] > window.innerHeight || location[1] < 0) {
+      if (location[1] > window.innerHeight - particleRadius || location[1] < particleRadius) {
         velocity[1] = velocity[1] * -1
       }
       this.particleArr[i].x = location[0]
