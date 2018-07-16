@@ -30,15 +30,12 @@
         let height = window.innerHeight
         const resolution = 1
         const colors = ['ff0099', 'f3f315', '83f52c', 'ff6600', '6e0dd0']
-        // let particlesArr = []
-        // const resolution = window.devicePixelRatio
 
         const app = new PIXI.Application(width, height, {
           resolution: resolution,
           autoResize: true,
           transparent: true,
           antialias: true
-          // forceFXAA: true
         })
         container.appendChild(app.view)
         // Score text

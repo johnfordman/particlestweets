@@ -1,7 +1,6 @@
 import * as PIXI from 'pixi.js'
 import {TweenMax} from 'gsap'
 import * as glm from 'gl-matrix'
-// import { add, vec2 } from 'gl-matrix/src/gl-matrix/vec2'
 
 export default class Particle {
   constructor (tweetText, app, scoreText) {
