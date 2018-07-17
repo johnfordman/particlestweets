@@ -30,10 +30,9 @@ npm run build
 
 ## Modify Hashtag
 
-The hashtag is located in /config/index.js under the access token secret
-
+The hashtag is located in /config/index.js
 ``` bash
-    hashtag: '#championdumonde2018',
+    hashtag: '#championdumonde2018'
 ```
 
 For detailed explanation on how things work, checkout the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
