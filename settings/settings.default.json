@@ -1,0 +1,7 @@
+{
+  "server": {
+      "host" : "myip",
+      "port" : 3333
+  },
+  "timeout": 3030
+}

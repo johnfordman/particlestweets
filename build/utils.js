@@ -1,11 +1,12 @@
+const standardSettings = require('standard-settings')
+const settings = standardSettings.getSettings()
 var path = require('path')
-var config = require('../config')
 var ExtractTextPlugin = require('extract-text-webpack-plugin')
 
 exports.assetsPath = function (_path) {
   var assetsSubDirectory = process.env.NODE_ENV === 'production'
-    ? config.build.assetsSubDirectory
-    : config.dev.assetsSubDirectory
+    ? settings.build.assetsSubDirectory
+    : settings.dev.assetsSubDirectory
   return path.posix.join(assetsSubDirectory, _path)
 }
 

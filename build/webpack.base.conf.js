@@ -1,5 +1,6 @@
+const standardSettings = require('standard-settings')
+const settings = standardSettings.getSettings()
 var path = require('path')
-var config = require('../config')
 var utils = require('./utils')
 var projectRoot = path.resolve(__dirname, '../')
 
@@ -8,8 +9,8 @@ module.exports = {
     app: './src/main.js'
   },
   output: {
-    path: config.build.assetsRoot,
-    publicPath: process.env.NODE_ENV === 'production' ? config.build.assetsPublicPath : config.dev.assetsPublicPath,
+    path: path.resolve(__dirname, settings.build.assetsRoot),
+    publicPath: process.env.NODE_ENV === 'production' ? settings.build.assetsPublicPath : settings.dev.assetsPublicPath,
     filename: '[name].js'
   },
   resolve: {

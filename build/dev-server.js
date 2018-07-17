@@ -1,17 +1,18 @@
+const standardSettings = require('standard-settings')
+const settings = standardSettings.getSettings()
 var path = require('path')
 var express = require('express')
 var webpack = require('webpack')
-var config = require('../config')
 var proxyMiddleware = require('http-proxy-middleware')
 var webpackConfig = require('./webpack.dev.conf')
 var bodyParser = require('body-parser')
 var Twitter = require('twitter')
 
 // default port where dev server listens for incoming traffic
-var port = process.env.PORT || config.dev.port
+var port = settings.server.port
 // Define HTTP proxies to your custom API backend
 // https://github.com/chimurai/http-proxy-middleware
-var proxyTable = config.dev.proxyTable
+var proxyTable = settings.dev.proxyTable
 
 var app = express()
 var server = require('http').createServer(app)
@@ -59,7 +60,7 @@ app.use(devMiddleware)
 app.use(hotMiddleware)
 
 // serve pure static assets
-var staticPath = path.posix.join(config.dev.assetsPublicPath, config.dev.assetsSubDirectory)
+var staticPath = path.posix.join(settings.dev.assetsPublicPath, settings.dev.assetsSubDirectory)
 app.use(staticPath, express.static('./static'))
 
 server.listen(port, function() {
@@ -68,17 +69,18 @@ server.listen(port, function() {
 })
 
 let userConnected = false
+const hashtag = '#championdumonde2018'
 io.sockets.on('connection', function (socket) {
   userConnected = true
   if(userConnected) {
     console.log('Hello new user')
     var client = new Twitter({
-      consumer_key: config.dev.consumer_key,
-      consumer_secret: config.dev.consumer_secret,
-      access_token_key: config.dev.access_token_key,
-      access_token_secret: config.dev.access_token_secret
+      consumer_key: settings.twitter.consumer_key,
+      consumer_secret: settings.twitter.consumer_secret,
+      access_token_key: settings.twitter.access_token_key,
+      access_token_secret: settings.twitter.access_token_secret
     })
-    client.stream('statuses/filter', {track: config.dev.hashtag}, function(stream) {
+    client.stream('statuses/filter', {track: hashtag}, function(stream) {
       stream.on('data', function(event) {
         console.log(event && event.text)
         io.emit('newTweet', (event))
