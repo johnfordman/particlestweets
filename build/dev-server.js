@@ -1,5 +1,6 @@
 const standardSettings = require('standard-settings')
 const settings = standardSettings.getSettings()
+const config = require('../config')
 var path = require('path')
 var express = require('express')
 var webpack = require('webpack')
@@ -69,18 +70,18 @@ server.listen(port, function() {
 })
 
 let userConnected = false
-const hashtag = '#championdumonde2018'
 io.sockets.on('connection', function (socket) {
   userConnected = true
   if(userConnected) {
     console.log('Hello new user')
+    console.log(config.hashtag)
     var client = new Twitter({
       consumer_key: settings.twitter.consumer_key,
       consumer_secret: settings.twitter.consumer_secret,
       access_token_key: settings.twitter.access_token_key,
       access_token_secret: settings.twitter.access_token_secret
     })
-    client.stream('statuses/filter', {track: hashtag}, function(stream) {
+    client.stream('statuses/filter', {track: config.hashtag}, function(stream) {
       stream.on('data', function(event) {
         console.log(event && event.text)
         io.emit('newTweet', (event))
