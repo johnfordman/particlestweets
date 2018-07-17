@@ -1,7 +1,27 @@
 {
   "server": {
       "host" : "myip",
-      "port" : 3333
+      "port" : 3000
   },
-  "timeout": 3030
+  "build": {
+    "env": "production",
+    "target": "node",
+    "index": "../dist/index.html",
+    "assetsRoot": "../dist",    
+    "assetsSubDirectory": "static",
+    "assetsPublicPath": "/",
+    "productionSourceMap": true,
+    "productionGzip": false,
+    "productionGzipExtensions": ["js", "css"],
+    "node": {
+      "fs": "empty"
+    }
+  },
+  "dev": {
+    "env": "development",
+    "target": "node",    
+    "assetsSubDirectory": "static",
+    "assetsPublicPath": "/",
+    "proxyTable": {}
+  }
 }
