@@ -1,3 +1,3 @@
 module.exports = {
-  hashtag: "#test"
+  hashtag: "#championdumonde2018"
 }
