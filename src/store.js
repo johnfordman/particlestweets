@@ -9,19 +9,16 @@ const state = {
 }
 
 const mutations = {
-  increment (state) {
-    state.count++
+  INCREMENT_SCORE (state, n) {
+    state.score += n
   },
   NEW_TWEET: (state, tweet) => {
     state.tweets.push({tweet})
   }
 }
 
-const actions = {
-  increment: ({ commit }) => commit('increment')
-}
-
 const getters = {
+  score: state => state.score,
   tweets: state => state.tweets,
   lastTweet: state => {
     if (state.tweets.length > 0) {
@@ -35,6 +32,5 @@ const getters = {
 export default new Vuex.Store({
   state,
   mutations,
-  actions,
   getters
 })

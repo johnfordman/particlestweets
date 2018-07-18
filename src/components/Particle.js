@@ -1,6 +1,7 @@
 import * as PIXI from 'pixi.js'
 import {TweenMax} from 'gsap'
 import * as glm from 'gl-matrix'
+import store from '../store'
 
 export default class Particle {
   constructor (tweetText, app, scoreText) {
@@ -8,7 +9,6 @@ export default class Particle {
     this.scoreText = scoreText
     this.app = app
     this.particleArr = []
-    this.score = 0
   }
 
   init (x, y, radius, alpha, color, lastTweet, speedX, speedY) {
@@ -46,7 +46,7 @@ export default class Particle {
       TweenMax.to(this.tweetText, 0.3, {alpha: 1})
     }
     particleSprite.click = (e) => {
-      this.destroyParticle(particleSprite, this.score)
+      this.destroyParticle(particleSprite)
     }
     // Add the graphics to the stage
     this.app.stage.addChild(particleSprite)
@@ -72,12 +72,11 @@ export default class Particle {
   }
   updateScore (particle) {
     if (particle.config.radius <= 7) {
-      this.score = this.score + 10
+      store.commit('INCREMENT_SCORE', 10)
     } else {
-      this.score++
+      store.commit('INCREMENT_SCORE', 1)
     }
-
-    this.scoreText.text = `Score : ${this.score}`
+    this.scoreText.text = `Score : ${store.state.score}`
   }
 
   entryParticle (particle, alpha) {

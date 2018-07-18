@@ -74,7 +74,6 @@ io.sockets.on('connection', function (socket) {
   userConnected = true
   if(userConnected) {
     console.log('Hello new user')
-    console.log(config.hashtag)
     var client = new Twitter({
       consumer_key: settings.twitter.consumer_key,
       consumer_secret: settings.twitter.consumer_secret,
