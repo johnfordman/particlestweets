@@ -6,15 +6,12 @@
   import * as PIXI from 'pixi.js'
   import utils from '../../utils/'
   import Particle from '../Particle'
-  import store from '../../store'
-  // import {mapGetters} from 'vuex'
+  import {mapGetters} from 'vuex'
 
   export default {
-    computed: {
-      lastTweet  () {
-        return store.getters.lastTweet.tweet
-      }
-    },
+    computed: mapGetters([
+      'lastTweet'
+    ]),
     methods: {
       initPixi () {
         const container = document.querySelector('.page-scene')
@@ -59,7 +56,8 @@
 
         let particle = new Particle(tweetText, app, scoreText)
         // Watch lastTweet property
-        this.$watch('lastTweet', (tweet) => {
+        this.$watch('lastTweet', (tweetObj) => {
+          const tweet = tweetObj.tweet
           var radius = utils.map(Math.random(), 0, 1, 5, 30)
           const minPos = radius
           const maxPosX = width - radius

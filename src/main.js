@@ -4,6 +4,7 @@ import Vue from 'vue'
 import Bourgeon from './components/bourgeon'
 import App from './App'
 import dataManager from './dataManager/index.js'
+import store from './store'
 
 Vue.use(Bourgeon, {
   locales: ['fr', 'en']
@@ -15,5 +16,6 @@ export const bus = new Vue()
 
 /* eslint-disable no-new */
 new Vue({
-  render: h => h(App)
+  render: h => h(App),
+  store
 }).$mount('#app')
