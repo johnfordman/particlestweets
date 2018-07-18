@@ -1,22 +1,19 @@
 import io from 'socket.io-client'
-import Vue from 'vue'
-export const store = new Vue({
-  data: {
-    tweets: []
-  }
-})
+import store from '../store'
 
 export default {
   install (Vue) {
     // Connect to socket.io
     const socket = io.connect()
-    Vue.prototype.$store = store
+    let lastTweet = ''
     socket.on('connect', () => {
       console.log('connect')
     })
     socket.on('newTweet', (tweet) => {
-      // console.log(tweet)
-      store.tweets.push({tweet})
+      if (lastTweet !== tweet.text) {
+        store.commit('NEW_TWEET', tweet.text)
+      }
+      lastTweet = tweet.text
     })
     Vue.mixin({
       methods: {

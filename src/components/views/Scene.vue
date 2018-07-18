@@ -1,29 +1,21 @@
 <template>
-  <div class="page-scene">
-  </div>
+  <div class="page-scene"></div>
 </template>
 
 <script>
   import * as PIXI from 'pixi.js'
   import utils from '../../utils/'
   import Particle from '../Particle'
+  import store from '../../store'
+  // import {mapGetters} from 'vuex'
 
   export default {
-    data () {
-      return {
-        lastTweet: ''
+    computed: {
+      lastTweet  () {
+        return store.getters.lastTweet.tweet
       }
     },
     methods: {
-      getLastTweet () {
-        this.$store.$watch('tweets', (tweets) => {
-          let lastData = tweets[tweets.length - 1]
-          let lastTweet = lastData.tweet.text
-          if (lastTweet !== this.lastTweet) {
-            this.lastTweet = lastTweet
-          }
-        })
-      },
       initPixi () {
         const container = document.querySelector('.page-scene')
         let width = window.innerWidth
@@ -81,7 +73,6 @@
           // add new particle to screen
           particle.init(randomX, randomY, radius, alpha, randomColor, tweet, speedX, speedY)
         })
-
         app.ticker.add(() => {
           particle.update()
         })
@@ -98,7 +89,6 @@
     },
     mounted () {
       this.initPixi()
-      this.getLastTweet()
     }
   }
 </script>
