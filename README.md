@@ -30,7 +30,7 @@ npm run build
 
 ## Modify Hashtag
 
-The hashtag is located in /config/index.js
+The hashtag is located in /settings/settings.default.json
 ``` bash
     hashtag: '#championdumonde2018'
 ```

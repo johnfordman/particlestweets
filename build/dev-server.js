@@ -80,7 +80,7 @@ io.sockets.on('connection', function (socket) {
       access_token_key: settings.twitter.access_token_key,
       access_token_secret: settings.twitter.access_token_secret
     })
-    client.stream('statuses/filter', {track: config.hashtag}, function(stream) {
+    client.stream('statuses/filter', {track: settings.hashtag}, function(stream) {
       stream.on('data', function(event) {
         console.log(event && event.text)
         io.emit('newTweet', (event))
