@@ -76,7 +76,7 @@ export default class Particle {
     } else {
       store.commit('INCREMENT_SCORE', 1)
     }
-    this.scoreText.text = `Score : ${store.state.score}`
+    this.scoreText.text = `Score : ${store.getters.score}`
   }
 
   entryParticle (particle, alpha) {

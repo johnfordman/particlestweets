@@ -1,6 +1,5 @@
 const standardSettings = require('standard-settings')
 const settings = standardSettings.getSettings()
-const config = require('../config')
 var path = require('path')
 var express = require('express')
 var webpack = require('webpack')

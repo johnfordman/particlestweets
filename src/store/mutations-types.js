@@ -1,0 +1,2 @@
+export const INCREMENT_SCORE = 'INCREMENT_SCORE'
+export const NEW_TWEET = 'NEW_TWEET'
