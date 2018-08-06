@@ -32,7 +32,7 @@ npm run build
 
 The hashtag is located in /settings/settings.default.json
 ``` bash
-    hashtag: '#championdumonde2018'
+    hashtag: '#ASTROWORLD'
 ```
 
 For detailed explanation on how things work, checkout the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).

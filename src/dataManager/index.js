@@ -2,7 +2,7 @@ import io from 'socket.io-client'
 import store from '../store'
 
 export default {
-  install (Vue) {
+  install () {
     // Connect to socket.io
     const socket = io.connect()
     let lastTweet = ''
@@ -14,13 +14,6 @@ export default {
         store.commit('NEW_TWEET', tweet.text)
       }
       lastTweet = tweet.text
-    })
-    Vue.mixin({
-      methods: {
-        connect (username, avatarURL) {
-          socket.emit('user connected', {username, avatarURL})
-        }
-      }
     })
   }
 }
